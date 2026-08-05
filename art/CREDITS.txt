@@ -15,3 +15,103 @@ christopher-moltisanti.jpg — Michael Imperioli as Christopher Moltisanti
     source : https://commons.wikimedia.org/wiki/File:Donna_with_Christopher_Moltisanti.jpg
     license: CC BY 2.0
     author : Josh Miller
+dr-melfi.jpg — Lorraine Bracco as Dr. Melfi
+    source : https://commons.wikimedia.org/wiki/File:David_Chase_and_Lorraine_Bracco,_May_2000.jpg
+    license: CC BY 2.0
+    author : Peabody Awards
+
+paulie-gualtieri.jpg — Tony Sirico as Paulie Gualtieri
+    source : https://commons.wikimedia.org/wiki/File:100401-N-0696M-202.jpg
+    license: CC BY 2.0
+    author : Chairman of the Joint Chiefs of Staff
+
+livia-soprano.jpg — Nancy Marchand as Livia Soprano
+    source : https://commons.wikimedia.org/wiki/File:Livia_Soprano_(The_Sopranos_Family_Tree).jpg
+    license: CC BY 3.0
+    author : HBO
+
+meadow-soprano.jpg — Jamie-Lynn Sigler as Meadow Soprano
+    source : https://commons.wikimedia.org/wiki/File:Jamie-Lynn_Sigler_@_HBO_Post-Emmys_Party.jpg
+    license: CC BY-SA 2.0
+    author : Kristin Dos Santos from Los Angeles, California, United States
+
+a-j-soprano.jpg — Robert Iler as A.J. Soprano
+    source : https://commons.wikimedia.org/wiki/File:A.J._Soprano%27s_birthday_(The_Sopranos_Family_Tree).jpg
+    license: CC BY 3.0
+    author : HBO
+
+adriana-la-cerva.jpg — Drea de Matteo as Adriana La Cerva
+    source : https://commons.wikimedia.org/wiki/File:Adriana_La_Cerva_(The_Sopranos_Family_Tree).jpg
+    license: CC BY 3.0
+    author : HBO
+
+bobby-baccalieri.jpg — Steve Schirripa as Bobby Baccalieri
+    source : https://commons.wikimedia.org/wiki/File:Bobby_Baccalieri_(The_Sopranos_Family_Tree).jpg
+    license: CC BY 3.0
+    author : HBO
+
+ralph-cifaretto.jpg — Joe Pantoliano as Ralph Cifaretto
+    source : https://commons.wikimedia.org/wiki/File:JoePantolianoFeb2009_(cropped).jpg
+    license: CC BY 2.0
+    author : Justin Hoch photographing for Hudson Union Society
+
+phil-leotardo.jpg — Frank Vincent as Phil Leotardo
+    source : https://commons.wikimedia.org/wiki/File:FrankVincentDuMond.jpg
+    license: CC BY-SA 4.0
+    author : Unknown authorUnknown author
+
+artie-bucco.jpg — John Ventimiglia as Artie Bucco
+    source : https://commons.wikimedia.org/wiki/File:John_Ventimiglia_(39997539183).jpg
+    license: CC BY-SA 2.0
+    author : Greg2600
+
+furio-giunta.jpg — Federico Castelluccio as Furio Giunta
+    source : https://commons.wikimedia.org/wiki/File:2.20.20AielloTributeByLuigiNovi10.jpg
+    license: CC BY 4.0
+    author : Luigi Novi
+
+richie-aprile.jpg — David Proval as Richie Aprile
+    source : https://commons.wikimedia.org/wiki/File:David_Proval_Qatar.jpg
+    license: Public domain
+    author : Dustin Senger, Area Support Group Qatar Public Affairs Office
+
+vito-spatafore.jpg — Joseph R. Gannascoli as Vito Spatafore
+    source : https://commons.wikimedia.org/wiki/File:6.7.11JoesphGannascoliByLuigiNovi.jpg
+    license: CC BY 3.0
+    author : Nightscream
+
+little-carmine.jpg — Ray Abruzzo as Little Carmine
+    source : https://commons.wikimedia.org/wiki/File:Ray_Abruzzo_2016.png
+    license: CC BY 3.0
+    author : thepaparazzigamer
+
+gloria-trillo.jpg — Annabella Sciorra as Gloria Trillo
+    source : https://commons.wikimedia.org/wiki/File:Annabella_Sciorra_at_the_2008_Tribeca_Film_Festival.JPG
+    license: CC BY 3.0
+    author : David Shankbone
+
+tony-blundetto.jpg — Steve Buscemi as Tony Blundetto
+    source : https://commons.wikimedia.org/wiki/File:Alexandre_Rockwell_and_Steve_Buscemi_(41410).jpg
+    license: CC BY-SA 4.0
+    author : Rhododendrites
+
+charmaine-bucco.jpg — Kathrine Narducci as Charmaine Bucco
+    source : https://commons.wikimedia.org/wiki/File:Kathrine-narducci.jpg
+    license: CC BY-SA 3.0
+    author : Kathrine22
+
+rosalie-aprile.jpg — Sharon Angela as Rosalie Aprile
+    source : https://commons.wikimedia.org/wiki/File:Rosalie_Aprile_(The_Sopranos_Top_25_Best_Lines).jpg
+    license: CC BY 3.0
+    author : HBO
+
+benny-fazio.jpg — Max Casella as Benny Fazio
+    source : https://commons.wikimedia.org/wiki/File:Max_Casella_(28754172591).jpg
+    license: CC BY-SA 2.0
+    author : Greg2600
+
+svetlana-kirilenko.jpg — Alla Kliouka as Svetlana Kirilenko
+    source : https://commons.wikimedia.org/wiki/File:Alla_Kliouka.jpg
+    license: CC BY-SA 4.0
+    author : Ivan Vlad
+
