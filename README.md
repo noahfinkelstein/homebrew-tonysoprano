@@ -93,6 +93,13 @@ tools/img2ascii tony.png -w 60 -o art/tony-soprano.txt
 `--invert` flips the ramp for light-background terminals or viewers.
 The CLI picks up whatever is in `art/` — no other wiring needed.
 
+To convert a whole folder at once, name each image after its speaker slug
+and run the batch tool:
+
+```sh
+tools/make-portraits portraits/ 60   # portraits/tony-soprano.jpg -> art/tony-soprano.txt
+```
+
 ### Why the dataset is small
 
 The show's dialogue is copyrighted, so this repo intentionally ships only a
