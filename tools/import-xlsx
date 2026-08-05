@@ -18,16 +18,28 @@ def clean(s):
     return " ".join(str(s).split())
 
 
+def pick(header, *names):
+    for n in names:
+        if n in header:
+            return header.index(n)
+    sys.exit(f"import-xlsx: no column named {' / '.join(names)}")
+
+
 def main():
     if len(sys.argv) != 2:
         sys.exit(__doc__.strip())
-    ws = openpyxl.load_workbook(sys.argv[1]).active
-    rows = ws.iter_rows(values_only=True)
-    header = [clean(c).lower() for c in next(rows)]
+    # use the first sheet that has Quote/Speaker columns
+    for ws in openpyxl.load_workbook(sys.argv[1]).worksheets:
+        rows = ws.iter_rows(values_only=True)
+        header = [clean(c).lower() for c in next(rows)]
+        if "quote" in header and "speaker" in header:
+            break
+    else:
+        sys.exit("import-xlsx: no sheet with Quote and Speaker columns")
     q = header.index("quote")
     s = header.index("speaker")
-    t = header.index("episode title")
-    c = header.index("ep. code")
+    t = pick(header, "episode title", "episode")
+    c = pick(header, "ep. code", "code", "ep code")
     seen = set()
     for row in rows:
         if not row[q] or not row[s]:
