@@ -10,11 +10,12 @@ ASCII portrait of the speaker above it.
 
 ```sh
 brew tap noahfinkelstein/tonysoprano https://github.com/noahfinkelstein/tonysoprano
-brew install --HEAD noahfinkelstein/tonysoprano/sopranos   # installs from main
+brew install tonysoprano
 ```
 
-Once a `v1.0.0` tag exists and `Formula/sopranos.rb` has its tarball sha256
-filled in, plain `brew install noahfinkelstein/tonysoprano/sopranos` works too.
+After the one-time tap, the short name is enough (`tonysoprano` is a tap
+alias for the `sopranos` formula — either name works). Add `--HEAD` to
+install from `main` instead of the latest release.
 
 **Make** (symlinks the checkout onto your PATH):
 
