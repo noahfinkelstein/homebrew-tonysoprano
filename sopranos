@@ -1,24 +1,27 @@
 #!/bin/sh
-# sopranos — print a quote from The Sopranos.
+# sopranos — print a quote from The Sopranos, with the speaker's ASCII portrait.
 # Data lives in quotes.tsv next to this script: quote<TAB>speaker<TAB>episode
+# Portraits live in art/<speaker-slug>.txt; art/default.txt is the fallback.
 
 set -e
 dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 data="$dir/quotes.tsv"
 
 usage() {
-    echo "usage: sopranos [-n count] [-s speaker] [-l]" >&2
+    echo "usage: sopranos [-n count] [-s speaker] [-l] [-q]" >&2
     echo "  -n count    print N random quotes (default 1)" >&2
     echo "  -s speaker  only quotes from a matching speaker (substring, case-insensitive)" >&2
     echo "  -l          list every matching quote instead of picking at random" >&2
+    echo "  -q          quote only, no ASCII portrait" >&2
 }
 
-n=1 speaker='' list=''
-while getopts "n:s:lh" opt; do
+n=1 speaker='' list='' noart=''
+while getopts "n:s:lqh" opt; do
     case $opt in
         n) n=$OPTARG ;;
         s) speaker=$OPTARG ;;
         l) list=1 ;;
+        q) noart=1 ;;
         h) usage; exit 0 ;;
         *) usage; exit 1 ;;
     esac
@@ -27,21 +30,43 @@ done
 # awk's srand() only varies per second; mix in the PID so rapid runs differ
 seed=$(( $(date +%s) + $$ ))
 
-awk -F'\t' -v n="$n" -v who="$speaker" -v list="$list" -v seed="$seed" '
+awk -F'\t' -v n="$n" -v who="$speaker" -v list="$list" -v seed="$seed" \
+    -v noart="$noart" -v artdir="$dir/art" '
+    function slug(name,    s) {
+        s = tolower(name)
+        gsub(/[^a-z0-9]+/, "-", s)
+        gsub(/^-/, "", s); gsub(/-$/, "", s)
+        return s
+    }
+    function art(name,    file, line, found) {
+        if (noart) return
+        file = artdir "/" slug(name) ".txt"
+        while ((getline line < file) > 0) { print line; found = 1 }
+        close(file)
+        if (!found) {
+            file = artdir "/default.txt"
+            while ((getline line < file) > 0) print line
+            close(file)
+        }
+    }
     function show(row,    f) {
         split(row, f, "\t")
+        art(f[2])
         printf "\"%s\"\n  \342\200\224 %s, %s\n", f[1], f[2], f[3]
     }
     NF == 3 && (who == "" || index(tolower($2), tolower(who))) { rows[++c] = $0 }
     END {
         if (c == 0) { print "sopranos: no matching quotes" > "/dev/stderr"; exit 1 }
-        if (list) { for (i = 1; i <= c; i++) show(rows[i]); exit }
+        if (list) {
+            for (i = 1; i <= c; i++) { if (i > 1) print ""; show(rows[i]) }
+            exit
+        }
         srand(seed)
         for (i = c; i > 1; i--) {
             j = int(rand() * i) + 1
             t = rows[i]; rows[i] = rows[j]; rows[j] = t
         }
         if (n > c) n = c
-        for (i = 1; i <= n; i++) show(rows[i])
+        for (i = 1; i <= n; i++) { if (i > 1) print ""; show(rows[i]) }
     }
 ' "$data"
