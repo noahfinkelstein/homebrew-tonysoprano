@@ -1,8 +1,8 @@
 class Sopranos < Formula
   desc "Sopranos quotes in your terminal, with ASCII portraits"
   homepage "https://github.com/noahfinkelstein/homebrew-tonysoprano"
-  url "https://github.com/noahfinkelstein/homebrew-tonysoprano/archive/refs/tags/v1.1.0.tar.gz"
-  sha256 "2ae491dd01ccd83ca3da132a9857a516943df81b4195a876d269cd9d18ea4f8a"
+  url "https://github.com/noahfinkelstein/homebrew-tonysoprano/archive/refs/tags/v1.2.0.tar.gz"
+  sha256 "23217d0beaae5dab3d6378132f0f21c66548602931eeec9d9b95ecc3920c5cd0"
   license "MIT"
   head "https://github.com/noahfinkelstein/homebrew-tonysoprano.git", branch: "main"
 
