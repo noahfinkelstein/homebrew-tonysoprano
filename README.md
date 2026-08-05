@@ -48,12 +48,28 @@ Add lines to `quotes.tsv` and the CLI picks them up immediately — no build ste
 
 ## Portraits
 
-`art/` holds one hand-drawn ASCII portrait per character, keyed by a slug of
+`art/` holds one shaded ASCII portrait per character, keyed by a slug of
 the speaker name: lowercase, runs of non-alphanumerics become `-` (so
 `A.J. Soprano` → `art/a-j-soprano.txt`). Speakers without a portrait get
 `art/default.txt` (a generic wiseguy in a fedora). 22 characters ship with
-portraits; drop a new `.txt` in `art/` to add one. All portraits are original
-caricatures, not converted screenshots.
+portraits; drop a new `.txt` in `art/` to add or replace one. The shipped
+portraits are original hand-drawn caricatures, not converted screenshots.
+
+## Photorealistic portraits
+
+For true photorealism, convert your own images (e.g. screenshots you've
+taken from your copy of the show) with the bundled converter and write the
+result over the matching art file:
+
+```sh
+tools/img2ascii tony.png -w 60 -o art/tony-soprano.txt
+```
+
+`img2ascii` needs Python 3 + Pillow. It maps pixel brightness onto a
+10-step glyph ramp with autocontrast; `-w` sets output width in characters,
+`--aspect` compensates for terminal cell height (default 0.5), and
+`--invert` flips the ramp for light-background terminals or viewers.
+The CLI picks up whatever is in `art/` — no other wiring needed.
 
 ### Why the dataset is small
 
