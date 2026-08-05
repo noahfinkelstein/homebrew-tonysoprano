@@ -4,24 +4,40 @@
 # Portraits live in art/<speaker-slug>.txt; art/default.txt is the fallback.
 
 set -e
-dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+VERSION=1.0.0
+
+# resolve symlinks so an installed `sopranos` (e.g. Homebrew's bin symlink)
+# still finds quotes.tsv and art/ next to the real script
+self=$0
+while [ -L "$self" ]; do
+    link=$(readlink "$self")
+    case $link in
+        /*) self=$link ;;
+        *)  self=$(dirname -- "$self")/$link ;;
+    esac
+done
+dir=$(CDPATH= cd -- "$(dirname -- "$self")" && pwd)
 data="$dir/quotes.tsv"
 
 usage() {
-    echo "usage: sopranos [-n count] [-s speaker] [-l] [-q]" >&2
+    echo "usage: sopranos [-n count] [-s speaker] [-e episode] [-l] [-q] [-V]" >&2
     echo "  -n count    print N random quotes (default 1)" >&2
     echo "  -s speaker  only quotes from a matching speaker (substring, case-insensitive)" >&2
+    echo "  -e episode  only quotes from a matching episode (substring, case-insensitive)" >&2
     echo "  -l          list every matching quote instead of picking at random" >&2
     echo "  -q          quote only, no ASCII portrait" >&2
+    echo "  -V          print version" >&2
 }
 
-n=1 speaker='' list='' noart=''
-while getopts "n:s:lqh" opt; do
+n=1 speaker='' episode='' list='' noart=''
+while getopts "n:s:e:lqVh" opt; do
     case $opt in
         n) n=$OPTARG ;;
         s) speaker=$OPTARG ;;
+        e) episode=$OPTARG ;;
         l) list=1 ;;
         q) noart=1 ;;
+        V) echo "sopranos $VERSION"; exit 0 ;;
         h) usage; exit 0 ;;
         *) usage; exit 1 ;;
     esac
@@ -30,8 +46,8 @@ done
 # awk's srand() only varies per second; mix in the PID so rapid runs differ
 seed=$(( $(date +%s) + $$ ))
 
-awk -F'\t' -v n="$n" -v who="$speaker" -v list="$list" -v seed="$seed" \
-    -v noart="$noart" -v artdir="$dir/art" '
+awk -F'\t' -v n="$n" -v who="$speaker" -v ep="$episode" -v list="$list" \
+    -v seed="$seed" -v noart="$noart" -v artdir="$dir/art" '
     function slug(name,    s) {
         s = tolower(name)
         gsub(/[^a-z0-9]+/, "-", s)
@@ -54,7 +70,8 @@ awk -F'\t' -v n="$n" -v who="$speaker" -v list="$list" -v seed="$seed" \
         art(f[2])
         printf "\"%s\"\n  \342\200\224 %s, %s\n", f[1], f[2], f[3]
     }
-    NF == 3 && (who == "" || index(tolower($2), tolower(who))) { rows[++c] = $0 }
+    NF == 3 && (who == "" || index(tolower($2), tolower(who))) \
+             && (ep == "" || index(tolower($3), tolower(ep))) { rows[++c] = $0 }
     END {
         if (c == 0) { print "sopranos: no matching quotes" > "/dev/stderr"; exit 1 }
         if (list) {

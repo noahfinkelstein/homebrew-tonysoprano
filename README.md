@@ -4,6 +4,28 @@ A lightweight, dependency-free CLI (POSIX sh + awk) that prints quotes from
 *The Sopranos* — the quote, who said it, and the episode, with an original
 ASCII portrait of the speaker above it.
 
+## Install
+
+**Homebrew** (this repo doubles as a tap):
+
+```sh
+brew tap noahfinkelstein/tonysoprano https://github.com/noahfinkelstein/tonysoprano
+brew install --HEAD noahfinkelstein/tonysoprano/sopranos   # installs from main
+```
+
+Once a `v1.0.0` tag exists and `Formula/sopranos.rb` has its tarball sha256
+filled in, plain `brew install noahfinkelstein/tonysoprano/sopranos` works too.
+
+**Make** (symlinks the checkout onto your PATH):
+
+```sh
+make install            # PREFIX=/usr/local by default
+make install PREFIX=~/.local
+```
+
+Either way, `sopranos` resolves its own symlink to find `quotes.tsv` and
+`art/`, so editing the data in place keeps working after install.
+
 ## Usage
 
 ```sh
