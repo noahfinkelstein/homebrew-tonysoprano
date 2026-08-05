@@ -9,7 +9,7 @@ ASCII portrait of the speaker above it.
 **Homebrew** (this repo doubles as a tap):
 
 ```sh
-brew tap noahfinkelstein/tonysoprano https://github.com/noahfinkelstein/tonysoprano
+brew tap noahfinkelstein/tonysoprano
 brew install tonysoprano
 ```
 
