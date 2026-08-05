@@ -4,7 +4,7 @@
 # Portraits live in art/<speaker-slug>.txt; art/default.txt is the fallback.
 
 set -e
-VERSION=1.1.0
+VERSION=1.2.0
 
 # resolve symlinks so an installed `sopranos` (e.g. Homebrew's bin symlink)
 # still finds quotes.tsv and art/ next to the real script

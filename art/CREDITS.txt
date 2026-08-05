@@ -115,3 +115,18 @@ svetlana-kirilenko.jpg — Alla Kliouka as Svetlana Kirilenko
     license: CC BY-SA 4.0
     author : Ivan Vlad
 
+silvio-dante.jpg — Steven Van Zandt as Silvio Dante
+    source : https://commons.wikimedia.org/wiki/File:Jon_Landau_and_Steven_Van_Zandt_at_the_2024_Toronto_International_Film_Festival_2.jpg
+    license: CC BY-SA 4.0
+    author : Adam Chitayat
+
+junior-soprano.jpg — Dominic Chianese as Junior Soprano
+    source : https://commons.wikimedia.org/wiki/File:Dominic_Chianese,_Lorraine_Bracco_and_Tony_Sirico,_May_2000_(1).jpg
+    license: CC BY 2.0
+    author : Peabody Awards
+
+dr-elliot-kupferberg.jpg — Peter Bogdanovich as Dr. Elliot Kupferberg
+    source : https://commons.wikimedia.org/wiki/File:Mascarilla_Anti_Humo.jpg
+    license: CC BY-SA 4.0
+    author : Armando Olivo Martín del Campo
+
