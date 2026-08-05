@@ -2,7 +2,7 @@ class Sopranos < Formula
   desc "Sopranos quotes in your terminal, with ASCII portraits"
   homepage "https://github.com/noahfinkelstein/tonysoprano"
   url "https://github.com/noahfinkelstein/tonysoprano/archive/refs/tags/v1.0.0.tar.gz"
-  sha256 "PUT_TARBALL_SHA256_HERE" # see README: fill in after tagging v1.0.0
+  sha256 "f5236fca810d982c577e70dded719736d0b24bfc7288d2a031ab6d4daef6e8cf"
   head "https://github.com/noahfinkelstein/tonysoprano.git", branch: "main"
 
   def install
