@@ -1,0 +1,42 @@
+#!/usr/bin/env python3
+"""import-xlsx — convert a quotes spreadsheet into quotes.tsv.
+
+Expects columns named Quote, Speaker, Episode Title, Ep. Code (any order).
+Usage: tools/import-xlsx FILE.xlsx > quotes.tsv
+"""
+
+import sys
+
+try:
+    import openpyxl
+except ImportError:
+    sys.exit("import-xlsx: needs openpyxl — run: pip install openpyxl")
+
+
+def clean(s):
+    # fields are tab-separated, so strip tabs/newlines from values
+    return " ".join(str(s).split())
+
+
+def main():
+    if len(sys.argv) != 2:
+        sys.exit(__doc__.strip())
+    ws = openpyxl.load_workbook(sys.argv[1]).active
+    rows = ws.iter_rows(values_only=True)
+    header = [clean(c).lower() for c in next(rows)]
+    q = header.index("quote")
+    s = header.index("speaker")
+    t = header.index("episode title")
+    c = header.index("ep. code")
+    seen = set()
+    for row in rows:
+        if not row[q] or not row[s]:
+            continue
+        line = f"{clean(row[q])}\t{clean(row[s])}\t{clean(row[t])} ({clean(row[c])})"
+        if line not in seen:
+            seen.add(line)
+            print(line)
+
+
+if __name__ == "__main__":
+    main()

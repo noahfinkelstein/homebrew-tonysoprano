@@ -1,0 +1,17 @@
+Cast photographs from Wikimedia Commons; ASCII portraits in art/
+are derived from these. Respect each license when reusing.
+
+tony-soprano.jpg — James Gandolfini as Tony Soprano
+    source : https://commons.wikimedia.org/wiki/File:100331-N-0696M-201_(4479500323).jpg
+    license: Public domain
+    author : Chairman of the Joint Chiefs of Staff from Washington D.C, United States
+
+carmela-soprano.jpg — Edie Falco as Carmela Soprano
+    source : https://commons.wikimedia.org/wiki/File:Edie_Falco_2010.jpg
+    license: CC BY 2.0
+    author : Drama League from USA
+
+christopher-moltisanti.jpg — Michael Imperioli as Christopher Moltisanti
+    source : https://commons.wikimedia.org/wiki/File:Donna_with_Christopher_Moltisanti.jpg
+    license: CC BY 2.0
+    author : Josh Miller

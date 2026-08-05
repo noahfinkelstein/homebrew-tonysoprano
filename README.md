@@ -1,8 +1,8 @@
 # tonysoprano
 
 A lightweight, dependency-free CLI (POSIX sh + awk) that prints quotes from
-*The Sopranos* — the quote, who said it, and the episode, with an original
-ASCII portrait of the speaker above it.
+*The Sopranos* — the quote, who said it, and the episode, with an ASCII
+portrait of the speaker above it.
 
 ## Install
 
@@ -30,80 +30,69 @@ Either way, `sopranos` resolves its own symlink to find `quotes.tsv` and
 ## Usage
 
 ```sh
-./sopranos              # one random quote (with portrait)
-./sopranos -n 3         # three random quotes
-./sopranos -s paulie    # random quote from a matching speaker
-./sopranos -s tony -l   # list all quotes from a matching speaker
-./sopranos -l           # list everything
-./sopranos -q           # quote only, no portrait
+sopranos                    # one random quote (with portrait)
+sopranos -n 3               # three random quotes
+sopranos -s paulie          # random quote from a matching speaker
+sopranos -e "pine barrens"  # random quote from a matching episode
+sopranos -s tony -l         # list all matches
+sopranos -q                 # quote only, no portrait
+sopranos -V                 # version
 ```
 
-Example output:
+Output format:
 
 ```
-    .-----.
-   /       \
-  ||_     _||
-  |  o   o  |
-  |    L    |
-  |  ,---o==~
-   \       /
-    '-----'
+<portrait>
 "'Remember when' is the lowest form of conversation."
-  — Tony Soprano, Remember When (S6E15)
-```
-
-Optionally symlink it onto your PATH:
-
-```sh
-ln -s "$(pwd)/sopranos" /usr/local/bin/sopranos
+  — Tony Soprano, Remember When (S06E15)
 ```
 
 ## Data
 
-Quotes live in `quotes.tsv`, one per line, three tab-separated fields:
+`quotes.tsv` holds 300 quotes, one per line, three tab-separated fields:
 
 ```
 quote<TAB>speaker<TAB>episode
 ```
 
-Add lines to `quotes.tsv` and the CLI picks them up immediately — no build step.
+Add lines and the CLI picks them up immediately — no build step. To
+re-import from a spreadsheet (columns: Quote, Speaker, Episode Title,
+Ep. Code):
+
+```sh
+tools/import-xlsx quotes.xlsx > quotes.tsv
+```
 
 ## Portraits
 
-`art/` holds one shaded ASCII portrait per character, keyed by a slug of
-the speaker name: lowercase, runs of non-alphanumerics become `-` (so
+`art/` holds one ASCII portrait per character, keyed by a slug of the
+speaker name: lowercase, runs of non-alphanumerics become `-` (so
 `A.J. Soprano` → `art/a-j-soprano.txt`). Speakers without a portrait get
-`art/default.txt` (a generic wiseguy in a fedora). 22 characters ship with
-portraits; drop a new `.txt` in `art/` to add or replace one. The shipped
-portraits are original hand-drawn caricatures, not converted screenshots.
+`art/default.txt`. Drop a new `.txt` in `art/` to add or replace one.
 
-## Photorealistic portraits
+To regenerate portraits from freely-licensed cast photos on Wikimedia
+Commons (licenses and authors recorded in `art/CREDITS.txt`):
 
-For true photorealism, convert your own images (e.g. screenshots you've
-taken from your copy of the show) with the bundled converter and write the
-result over the matching art file:
+```sh
+tools/get-cast-photos          # downloads cast-photos/<slug>.jpg + credits
+tools/make-portraits cast-photos/ 60   # converts them into art/
+```
+
+To use your own image for any character:
 
 ```sh
 tools/img2ascii tony.png -w 60 -o art/tony-soprano.txt
 ```
 
-`img2ascii` needs Python 3 + Pillow. It maps pixel brightness onto a
-10-step glyph ramp with autocontrast; `-w` sets output width in characters,
-`--aspect` compensates for terminal cell height (default 0.5), and
-`--invert` flips the ramp for light-background terminals or viewers.
-The CLI picks up whatever is in `art/` — no other wiring needed.
+`img2ascii` and `make-portraits` need Python 3 + Pillow; `get-cast-photos`
+and `import-xlsx` are stdlib-only (importer needs openpyxl). The default
+glyph ramp assumes a dark terminal; pass `--invert` to `img2ascii` for
+light backgrounds.
 
-To convert a whole folder at once, name each image after its speaker slug
-and run the batch tool:
+## Sources
 
-```sh
-tools/make-portraits portraits/ 60   # portraits/tony-soprano.jpg -> art/tony-soprano.txt
-```
-
-### Why the dataset is small
-
-The show's dialogue is copyrighted, so this repo intentionally ships only a
-small curated set of brief, widely-quoted lines rather than a bulk-scraped
-corpus of hundreds of quotes. Extend `quotes.tsv` locally as you like.
-Episode attributions are best-effort — corrections welcome.
+Quotes are brief attributed lines from a hand-curated dataset. Portraits
+are derived from freely-licensed Wikimedia Commons photographs — see
+`art/CREDITS.txt` for each photo's source, author, and license — or are
+original caricatures. Episode attributions are best-effort; corrections
+welcome.
