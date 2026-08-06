@@ -65,10 +65,12 @@ speaker name: lowercase, runs of non-alphanumerics become `-` (so
 `A.J. Soprano` → `art/a-j-soprano.txt`). Speakers without a portrait get
 `art/default.txt`. Drop a new `.txt` in `art/` to add or replace one.
 
-Photo portraits are stored as pixel grids (digits 0-4, Floyd-Steinberg
-dithered) that the CLI renders as shaded block characters (`░▒▓█`), two
-columns per pixel, scaled to your terminal. Hand-drawn `.txt` art still
-works — any file that isn't a digit grid prints literally.
+Photo portraits are stored as pixel grids (hex digits 0-f) that the CLI
+renders as grayscale half-block characters — two pixels per terminal
+cell, 24 gray levels — scaled to your terminal. Terminals without
+256-color support (or with `NO_COLOR` set, or when piping) fall back to
+plain shaded blocks (`░▒▓█`). Hand-drawn `.txt` art still works — any
+file that isn't a digit grid prints literally.
 
 To regenerate portraits from freely-licensed cast photos on Wikimedia
 Commons (licenses and authors recorded in `art/CREDITS.txt`):

@@ -4,7 +4,7 @@
 # Portraits live in art/<speaker-slug>.txt; art/default.txt is the fallback.
 
 set -e
-VERSION=2.0.0
+VERSION=2.1.0
 
 # resolve symlinks so an installed `sopranos` (e.g. Homebrew's bin symlink)
 # still finds quotes.tsv and art/ next to the real script
@@ -52,12 +52,18 @@ seed=$(( $(date +%s) + $$ ))
 cols=${COLUMNS:-$(tput cols 2>/dev/null || echo 80)}
 lines=${LINES:-$(tput lines 2>/dev/null || echo 24)}
 
+# grayscale half-block rendering needs 256 colors and a real terminal;
+# otherwise portraits fall back to plain shaded blocks
+color=''
+[ -t 1 ] && [ -z "$NO_COLOR" ] && [ "$(tput colors 2>/dev/null || echo 8)" -ge 256 ] && color=1
+
 awk -F'\t' -v n="$n" -v who="$speaker" -v ep="$episode" -v list="$list" \
-    -v seed="$seed" -v noart="$noart" -v invert="$invert" -v artdir="$dir/art" \
-    -v maxw="$((cols - 2))" -v maxh="$((lines - 8))" '
+    -v seed="$seed" -v noart="$noart" -v invert="$invert" -v color="$color" \
+    -v artdir="$dir/art" -v maxw="$((cols - 2))" -v maxh="$((lines - 6))" '
     BEGIN {
-        # pixel level -> block glyph pair (2 columns per pixel = square cells)
-        split(invert ? "██ ▓▓ ▒▒ ░░ ,," : ",, ░░ ▒▒ ▓▓ ██", g, " ")
+        HEX = "0123456789abcdef"
+        # fallback glyphs: pixel level bucket -> block pair (2 cols = square)
+        split(",, ░░ ▒▒ ▓▓ ██", g, " ")
         for (i = 1; i <= 5; i++) { gsub(/,/, " ", g[i]); glyph[i - 1] = g[i] }
     }
     function slug(name,    s) {
@@ -66,9 +72,15 @@ awk -F'\t' -v n="$n" -v who="$speaker" -v ep="$episode" -v list="$list" \
         gsub(/^-/, "", s); gsub(/-$/, "", s)
         return s
     }
+    function lvl(line, j,    l) {
+        l = index(HEX, substr(line, j, 1)) - 1
+        return invert ? 15 - l : l
+    }
+    function gray(l) { return 232 + int(l * 23 / 15) }
     # print an art file, sampled every f-th row/column to fit the terminal.
-    # digit-grid files (0-4 per pixel) render as shaded blocks; anything
-    # else prints as literal ASCII art.
+    # hex-grid files (one 0-f digit per pixel) render as grayscale
+    # half-blocks (2 pixels per cell) or shaded blocks; anything else
+    # prints as literal ASCII art.
     function art(name,    file, line, a, h, i, j, w, f, out) {
         if (noart) return
         file = artdir "/" slug(name) ".txt"
@@ -81,15 +93,28 @@ awk -F'\t' -v n="$n" -v who="$speaker" -v ep="$episode" -v list="$list" \
             close(file)
         }
         f = 1
-        if (a[1] ~ /^[0-4]+$/) {
+        if (a[1] ~ /^[0-9a-f]+$/) {
             w = length(a[1])
-            if (maxw >= 10 && w * 2 > maxw) f = int((w * 2 + maxw - 1) / maxw)
-            if (maxh >= 10 && int(h / f) > maxh) f = int((h + maxh - 1) / maxh)
-            for (i = 1; i <= h; i += f) {
-                out = ""
-                for (j = 1; j <= w; j += f) out = out glyph[substr(a[i], j, 1)]
-                sub(/ +$/, "", out)
-                print out
+            if (color) {
+                # half-blocks: 1 column, 2 rows of pixels per cell
+                if (maxw >= 10 && w > maxw) f = int((w + maxw - 1) / maxw)
+                if (maxh >= 10 && int(h / (2 * f)) > maxh) f = int((h + 2 * maxh - 1) / (2 * maxh))
+                for (i = 1; i <= h; i += 2 * f) {
+                    out = ""
+                    for (j = 1; j <= w; j += f)
+                        out = out sprintf("\033[38;5;%d;48;5;%dm\342\226\200", gray(lvl(a[i], j)),
+                                          gray(i + f <= h ? lvl(a[i + f], j) : 0))
+                    print out "\033[0m"
+                }
+            } else {
+                if (maxw >= 10 && w * 2 > maxw) f = int((w * 2 + maxw - 1) / maxw)
+                if (maxh >= 10 && int(h / f) > maxh) f = int((h + maxh - 1) / maxh)
+                for (i = 1; i <= h; i += f) {
+                    out = ""
+                    for (j = 1; j <= w; j += f) out = out glyph[int(lvl(a[i], j) * 5 / 16)]
+                    sub(/ +$/, "", out)
+                    print out
+                }
             }
         } else {
             w = 0

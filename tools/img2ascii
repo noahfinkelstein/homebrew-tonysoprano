@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """img2ascii — convert images into portrait pixel grids for the sopranos CLI.
 
-Output is a grid of digits 0-4 (dark to bright), one digit per pixel,
-Floyd-Steinberg dithered. The CLI renders digits as shaded block
-characters (space/light/medium/dark/full) sized to the terminal.
+Output is a grid of hex digits 0-f (dark to bright), one per pixel.
+The CLI renders grids as grayscale half-block characters (two pixels
+per terminal cell) sized to the terminal, with a plain shaded-block
+fallback for terminals without 256-color support.
 
     tools/img2ascii photo.jpg -o art/tony-soprano.txt   # one image
     tools/img2ascii cast-photos/                        # every image -> art/
@@ -20,7 +21,6 @@ try:
 except ImportError:
     sys.exit("img2ascii: needs Pillow — run: pip install pillow")
 
-GRAYS = (0, 64, 128, 191, 255)  # the 5 output levels
 EXTS = (".png", ".jpg", ".jpeg", ".gif", ".bmp", ".webp")
 
 
@@ -38,13 +38,10 @@ def convert(path, width, full=False):
         w = h = side
     img = img.resize((width, round(h * width / w)), Image.LANCZOS)
 
-    # dither down to 5 gray levels; palette index == level
-    pal = Image.new("P", (1, 1))
-    pal.putpalette([c for v in GRAYS for c in (v, v, v)] + [0] * (768 - 15))
-    img = img.convert("RGB").quantize(palette=pal, dither=Image.Dither.FLOYDSTEINBERG)
-
+    # 16 gray levels as hex digits; enough tone that no dithering is needed
     px = img.load()
-    rows = ("".join(str(px[x, y]) for x in range(img.width)) for y in range(img.height))
+    rows = ("".join(format(px[x, y] // 16, "x") for x in range(img.width))
+            for y in range(img.height))
     return "\n".join(rows) + "\n"
 
 
