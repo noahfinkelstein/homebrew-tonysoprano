@@ -1,7 +1,7 @@
 # The Sopranos CLI, whatever happened there...
 
 Commendatori! This is a lightweight, dependency-free command-line interface (utilizing POSIX sh + awk) that prints iconic quotes from HBO's hit series "The Sopranos." 
-It features character ASCII portraits, smart terminal scaling, and flexible filtering. Feedback and corrections are very welcome.
+It features character ASCII portraits, smart terminal scaling, and flexible filtering. Feedback and corrections are more than welcome.
 
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/ffd14100-0c21-4742-a19b-68081a38cabf" />
 
