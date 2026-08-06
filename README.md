@@ -1,8 +1,9 @@
 # sopranos
 
-A lightweight, dependency-free CLI (POSIX sh + awk) that prints quotes from
-HBO's hit series "The Sopranos." It shows the quote, who said it, and the episode, with an ASCII
-portrait of the speaker above it.
+A lightweight, dependency-free CLI (POSIX sh + awk) that prints iconic quotes from HBO's The Sopranos. 
+It features character ASCII portraits, smart terminal scaling, and flexible filtering.
+
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/ffd14100-0c21-4742-a19b-68081a38cabf" />
 
 ## Install
 
