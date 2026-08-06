@@ -83,7 +83,8 @@ and `import-xlsx` are stdlib-only (importer needs openpyxl). The default
 glyph ramp assumes a dark terminal; pass `--invert` to `img2ascii` for
 light backgrounds.
 
-Sources & Credits
+Sources & Credits 
+<br>
 <br> Quotes: Hand-curated brief attributed lines. Episode attributions are best-effort.
 <br> Portraits: Derived from freely licensed Wikimedia Commons photographs (see art/CREDITS.txt) or original caricatures.
 Anyway, $4 a pound.
