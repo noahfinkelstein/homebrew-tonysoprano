@@ -1,8 +1,9 @@
-# sopranos
+# The Sopranos CLI, whatever happened there...
 
-A lightweight, dependency-free CLI (POSIX sh + awk) that prints iconic quotes from HBO's The Sopranos. 
-It features character ASCII portraits, smart terminal scaling, and flexible filtering.
+Commendatori! This is a lightweight, dependency-free command-line interface (utilizing POSIX sh + awk) that prints iconic quotes from HBO's hit series "The Sopranos." 
+It features character ASCII portraits, smart terminal scaling, and flexible filtering. Feedback and corrections are very welcome.
 
+<img width="756" height="1000" alt="image" src="https://github.com/user-attachments/assets/0a751ead-a67d-4050-b51b-6e4b8841c88f" />
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/ffd14100-0c21-4742-a19b-68081a38cabf" />
 
 ## Install
@@ -83,10 +84,7 @@ and `import-xlsx` are stdlib-only (importer needs openpyxl). The default
 glyph ramp assumes a dark terminal; pass `--invert` to `img2ascii` for
 light backgrounds.
 
-## Sources
-
-Quotes are brief attributed lines from a hand-curated dataset. Portraits
-are derived from freely-licensed Wikimedia Commons photographs — see
-`art/CREDITS.txt` for each photo's source, author, and license — or are
-original caricatures. Episode attributions are best-effort; corrections
-welcome. Anyway, $4 a pound.
+Sources & Credits
+⚬	Quotes: Hand-curated brief attributed lines. Episode attributions are best-effort.
+⚬	Portraits: Derived from freely licensed Wikimedia Commons photographs (see art/CREDITS.txt) or original caricatures.
+Anyway, $4 a pound.
