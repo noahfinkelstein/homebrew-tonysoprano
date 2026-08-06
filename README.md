@@ -3,7 +3,6 @@
 Commendatori! This is a lightweight, dependency-free command-line interface (utilizing POSIX sh + awk) that prints iconic quotes from HBO's hit series "The Sopranos." 
 It features character ASCII portraits, smart terminal scaling, and flexible filtering. Feedback and corrections are very welcome.
 
-<img width="756" height="1000" alt="image" src="https://github.com/user-attachments/assets/0a751ead-a67d-4050-b51b-6e4b8841c88f" />
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/ffd14100-0c21-4742-a19b-68081a38cabf" />
 
 ## Install
@@ -88,3 +87,5 @@ Sources & Credits
 ⚬	Quotes: Hand-curated brief attributed lines. Episode attributions are best-effort.
 ⚬	Portraits: Derived from freely licensed Wikimedia Commons photographs (see art/CREDITS.txt) or original caricatures.
 Anyway, $4 a pound.
+
+<img width="756" height="1000" alt="image" src="https://github.com/user-attachments/assets/0a751ead-a67d-4050-b51b-6e4b8841c88f" />
