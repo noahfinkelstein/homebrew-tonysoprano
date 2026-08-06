@@ -1,10 +1,10 @@
 class Sopranos < Formula
   desc "Sopranos quotes in your terminal, with ASCII portraits"
-  homepage "https://github.com/noahfinkelstein/homebrew-tonysoprano"
-  url "https://github.com/noahfinkelstein/homebrew-tonysoprano/archive/refs/tags/v2.0.0.tar.gz"
-  sha256 "4b1666fecc833ab841786d18e3dec2d26c7ea6e9c272d7fb87ad39bdcba67f38"
+  homepage "https://github.com/noahfinkelstein/homebrew-sopranos"
+  url "https://github.com/noahfinkelstein/homebrew-sopranos/archive/refs/tags/v2.0.0.tar.gz"
+  sha256 "b2e8b53d2778ad2062f3309633fe0f39f0bdf7b9359bdc1a68c5df80278a85cb"
   license "MIT"
-  head "https://github.com/noahfinkelstein/homebrew-tonysoprano.git", branch: "main"
+  head "https://github.com/noahfinkelstein/homebrew-sopranos.git", branch: "main"
 
   def install
     # keep script + data together in libexec; the script resolves the bin

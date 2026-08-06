@@ -10,7 +10,7 @@ It features character ASCII portraits, smart terminal scaling, and flexible filt
 **Homebrew** (this repo doubles as a tap):
 
 ```sh
-brew tap noahfinkelstein/tonysoprano
+brew tap noahfinkelstein/sopranos
 brew install tonysoprano
 ```
 
