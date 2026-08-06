@@ -1,7 +1,7 @@
 # tonysoprano
 
 A lightweight, dependency-free CLI (POSIX sh + awk) that prints quotes from
-*The Sopranos* — the quote, who said it, and the episode, with an ASCII
+HBO's hit series "The Sopranos." It shows the quote, who said it, and the episode, with an ASCII
 portrait of the speaker above it.
 
 ## Install
@@ -16,16 +16,6 @@ brew install tonysoprano
 After the one-time tap, the short name is enough (`tonysoprano` is a tap
 alias for the `sopranos` formula — either name works). Add `--HEAD` to
 install from `main` instead of the latest release.
-
-**Make** (symlinks the checkout onto your PATH):
-
-```sh
-make install            # PREFIX=/usr/local by default
-make install PREFIX=~/.local
-```
-
-Either way, `sopranos` resolves its own symlink to find `quotes.tsv` and
-`art/`, so editing the data in place keeps working after install.
 
 ## Usage
 
@@ -52,7 +42,7 @@ Output format:
 
 ## Data
 
-`quotes.tsv` holds 300 quotes, one per line, three tab-separated fields:
+`quotes.tsv` holds 1000 quotes
 
 ```
 quote<TAB>speaker<TAB>episode
@@ -98,4 +88,4 @@ Quotes are brief attributed lines from a hand-curated dataset. Portraits
 are derived from freely-licensed Wikimedia Commons photographs — see
 `art/CREDITS.txt` for each photo's source, author, and license — or are
 original caricatures. Episode attributions are best-effort; corrections
-welcome.
+welcome. Anyway, $4 a pound.
