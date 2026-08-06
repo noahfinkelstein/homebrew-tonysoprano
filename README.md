@@ -39,6 +39,9 @@ sopranos -q                 # quote only, no portrait
 sopranos -V                 # version
 ```
 
+Portraits auto-scale to fit the terminal — in a small window the art is
+downsampled to leave room for the quote; `-q` skips it entirely.
+
 Output format:
 
 ```

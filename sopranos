@@ -4,7 +4,7 @@
 # Portraits live in art/<speaker-slug>.txt; art/default.txt is the fallback.
 
 set -e
-VERSION=1.3.1
+VERSION=1.4.0
 
 # resolve symlinks so an installed `sopranos` (e.g. Homebrew's bin symlink)
 # still finds quotes.tsv and art/ next to the real script
@@ -46,24 +46,43 @@ done
 # awk's srand() only varies per second; mix in the PID so rapid runs differ
 seed=$(( $(date +%s) + $$ ))
 
+# terminal size, so portraits shrink to fit small windows
+cols=${COLUMNS:-$(tput cols 2>/dev/null || echo 80)}
+lines=${LINES:-$(tput lines 2>/dev/null || echo 24)}
+
 awk -F'\t' -v n="$n" -v who="$speaker" -v ep="$episode" -v list="$list" \
-    -v seed="$seed" -v noart="$noart" -v artdir="$dir/art" '
+    -v seed="$seed" -v noart="$noart" -v artdir="$dir/art" \
+    -v maxw="$((cols - 2))" -v maxh="$((lines - 8))" '
     function slug(name,    s) {
         s = tolower(name)
         gsub(/[^a-z0-9]+/, "-", s)
         gsub(/^-/, "", s); gsub(/-$/, "", s)
         return s
     }
-    function art(name,    file, line, found) {
+    # print an art file, sampling every f-th row/column when it would not fit
+    function art(name,    file, line, a, i, j, w, f, out) {
         if (noart) return
         file = artdir "/" slug(name) ".txt"
-        while ((getline line < file) > 0) { print line; found = 1 }
+        w = 0
+        while ((getline line < file) > 0) { a[++w] = line }
         close(file)
-        if (!found) {
+        if (w == 0) {
             file = artdir "/default.txt"
-            while ((getline line < file) > 0) print line
+            while ((getline line < file) > 0) { a[++w] = line }
             close(file)
         }
+        wide = 0
+        for (i = 1; i <= w; i++) if (length(a[i]) > wide) wide = length(a[i])
+        f = 1
+        if (maxw >= 10 && wide > maxw) f = int((wide + maxw - 1) / maxw)
+        if (maxh >= 10 && int(w / f) > maxh) f = int((w + maxh - 1) / maxh)
+        for (i = 1; i <= w; i += f) {
+            if (f == 1) { print a[i]; continue }
+            out = ""
+            for (j = 1; j <= length(a[i]); j += f) out = out substr(a[i], j, 1)
+            print out
+        }
+        split("", a)
     }
     function show(row,    f) {
         split(row, f, "\t")
