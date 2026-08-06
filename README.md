@@ -10,8 +10,8 @@ It features character ASCII portraits, smart terminal scaling, and flexible filt
 **Homebrew** (this repo doubles as a tap):
 
 ```sh
-brew tap noahfinkelstein/tonysoprano
-brew install tonysoprano
+brew tap noahfinkelstein/sopranos
+brew install sopranos
 ```
 
 After the one-time tap, the short name is enough (`tonysoprano` is a tap
