@@ -22,10 +22,18 @@ except ImportError:
 RAMP = " .:-=+*#%@"
 
 
-def convert(path, width, aspect, invert):
+def convert(path, width, aspect, invert, full=False):
     img = Image.open(path).convert("L")
     img = ImageOps.autocontrast(img)
     w, h = img.size
+    if not full:
+        # crop to a face-biased square (faces sit near the top of portrait
+        # photos) so every portrait renders at the same size
+        side = min(w, h)
+        left = (w - side) // 2
+        top = min(int(h * 0.08), h - side)
+        img = img.crop((left, top, left + side, top + side))
+        w = h = side
     height = max(1, round(h * (width / w) * aspect))
     img = img.resize((width, height), Image.LANCZOS)
 
@@ -51,9 +59,11 @@ def main():
                    help="terminal cell height compensation (default 0.5)")
     p.add_argument("--invert", action="store_true",
                    help="flip the ramp for light backgrounds")
+    p.add_argument("--full", action="store_true",
+                   help="convert the whole image instead of the face crop")
     a = p.parse_args()
 
-    art = convert(a.image, a.width, a.aspect, a.invert)
+    art = convert(a.image, a.width, a.aspect, a.invert, a.full)
     if a.out:
         with open(a.out, "w") as f:
             f.write(art)
