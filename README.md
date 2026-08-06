@@ -88,5 +88,3 @@ Sources & Credits
 <br> Quotes: Hand-curated brief attributed lines. Episode attributions are best-effort.
 <br> Portraits: Derived from freely licensed Wikimedia Commons photographs (see art/CREDITS.txt) or original caricatures.
 Anyway, $4 a pound.
-
-<img width="756" height="1000" alt="image" src="https://github.com/user-attachments/assets/0a751ead-a67d-4050-b51b-6e4b8841c88f" />
