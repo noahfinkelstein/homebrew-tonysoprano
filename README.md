@@ -1,4 +1,4 @@
-# tonysoprano
+# sopranos
 
 A lightweight, dependency-free CLI (POSIX sh + awk) that prints quotes from
 HBO's hit series "The Sopranos." It shows the quote, who said it, and the episode, with an ASCII
