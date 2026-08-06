@@ -27,6 +27,7 @@ sopranos -s paulie          # random quote from a matching speaker
 sopranos -e "pine barrens"  # random quote from a matching episode
 sopranos -s tony -l         # list all matches
 sopranos -q                 # quote only, no portrait
+sopranos -i                 # invert shading (light-background terminals)
 sopranos -V                 # version
 ```
 
@@ -64,24 +65,28 @@ speaker name: lowercase, runs of non-alphanumerics become `-` (so
 `A.J. Soprano` → `art/a-j-soprano.txt`). Speakers without a portrait get
 `art/default.txt`. Drop a new `.txt` in `art/` to add or replace one.
 
+Photo portraits are stored as pixel grids (digits 0-4, Floyd-Steinberg
+dithered) that the CLI renders as shaded block characters (`░▒▓█`), two
+columns per pixel, scaled to your terminal. Hand-drawn `.txt` art still
+works — any file that isn't a digit grid prints literally.
+
 To regenerate portraits from freely-licensed cast photos on Wikimedia
 Commons (licenses and authors recorded in `art/CREDITS.txt`):
 
 ```sh
-tools/get-cast-photos          # downloads cast-photos/<slug>.jpg + credits
-tools/make-portraits cast-photos/ 60   # converts them into art/
+tools/get-cast-photos      # downloads cast-photos/<slug>.jpg + credits
+tools/img2ascii cast-photos/   # converts them all into art/
 ```
 
 To use your own image for any character:
 
 ```sh
-tools/img2ascii tony.png -w 60 -o art/tony-soprano.txt
+tools/img2ascii tony.png -o art/tony-soprano.txt
 ```
 
-`img2ascii` and `make-portraits` need Python 3 + Pillow; `get-cast-photos`
-and `import-xlsx` are stdlib-only (importer needs openpyxl). The default
-glyph ramp assumes a dark terminal; pass `--invert` to `img2ascii` for
-light backgrounds.
+`img2ascii` needs Python 3 + Pillow; `get-cast-photos` is stdlib-only and
+`import-xlsx` needs openpyxl. Shading assumes a dark terminal — use the
+CLI's `-i` flag on light backgrounds.
 
 Sources & Credits 
 <br>

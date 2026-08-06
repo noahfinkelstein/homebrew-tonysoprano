@@ -5,7 +5,7 @@ Searches Wikimedia Commons by actor name, saves the first good hit as
 cast-photos/<speaker-slug>.jpg, and records license/author in
 cast-photos/CREDITS.txt. Stdlib only. Then run:
 
-    tools/make-portraits cast-photos/ 60
+    tools/img2ascii cast-photos/
 
 Character names below match the Speaker column of quotes.tsv; add a pair
 here to cover a new speaker.

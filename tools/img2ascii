@@ -1,16 +1,18 @@
 #!/usr/bin/env python3
-"""img2ascii — convert an image into shaded ASCII art for the sopranos CLI.
+"""img2ascii — convert images into portrait pixel grids for the sopranos CLI.
 
-Feed it any image you have (e.g. your own screenshots) and drop the output
-into art/<speaker-slug>.txt so the CLI picks it up:
+Output is a grid of digits 0-4 (dark to bright), one digit per pixel,
+Floyd-Steinberg dithered. The CLI renders digits as shaded block
+characters (space/light/medium/dark/full) sized to the terminal.
 
-    tools/img2ascii tony.png -w 60 -o art/tony-soprano.txt
+    tools/img2ascii photo.jpg -o art/tony-soprano.txt   # one image
+    tools/img2ascii cast-photos/                        # every image -> art/
 
-The default ramp assumes a dark terminal (bright pixels -> dense glyphs).
-Use --invert if your terminal or viewer has a light background.
+Needs Python 3 + Pillow.
 """
 
 import argparse
+import os
 import sys
 
 try:
@@ -18,58 +20,65 @@ try:
 except ImportError:
     sys.exit("img2ascii: needs Pillow — run: pip install pillow")
 
-# darkest -> brightest, tuned for dark-background terminals
-RAMP = " .:-=+*#%@"
+GRAYS = (0, 64, 128, 191, 255)  # the 5 output levels
+EXTS = (".png", ".jpg", ".jpeg", ".gif", ".bmp", ".webp")
 
 
-def convert(path, width, aspect, invert, full=False):
+def convert(path, width, full=False):
     img = Image.open(path).convert("L")
-    img = ImageOps.autocontrast(img)
+    img = ImageOps.autocontrast(img, cutoff=2)
     w, h = img.size
     if not full:
         # crop to a face-biased square (faces sit near the top of portrait
-        # photos) so every portrait renders at the same size
+        # photos) so every portrait comes out the same size
         side = min(w, h)
         left = (w - side) // 2
         top = min(int(h * 0.08), h - side)
         img = img.crop((left, top, left + side, top + side))
         w = h = side
-    height = max(1, round(h * (width / w) * aspect))
-    img = img.resize((width, height), Image.LANCZOS)
+    img = img.resize((width, round(h * width / w)), Image.LANCZOS)
 
-    ramp = RAMP[::-1] if invert else RAMP
-    n = len(ramp)
+    # dither down to 5 gray levels; palette index == level
+    pal = Image.new("P", (1, 1))
+    pal.putpalette([c for v in GRAYS for c in (v, v, v)] + [0] * (768 - 15))
+    img = img.convert("RGB").quantize(palette=pal, dither=Image.Dither.FLOYDSTEINBERG)
+
     px = img.load()
-    lines = []
-    for y in range(height):
-        lines.append("".join(ramp[px[x, y] * n // 256] for x in range(width)))
-    return "\n".join(line.rstrip() for line in lines) + "\n"
+    rows = ("".join(str(px[x, y]) for x in range(img.width)) for y in range(img.height))
+    return "\n".join(rows) + "\n"
 
 
 def main():
-    p = argparse.ArgumentParser(
-        description="convert an image to shaded ASCII art",
-        epilog="output is plain text; pipe to a file or use -o",
-    )
-    p.add_argument("image", help="source image (any format Pillow reads)")
+    p = argparse.ArgumentParser(description=__doc__.split("\n")[0])
+    p.add_argument("image", help="source image, or a directory of slug-named images")
     p.add_argument("-w", "--width", type=int, default=48,
-                   help="output width in characters (default 48)")
+                   help="grid width in pixels (default 48; renders 2 columns per pixel)")
     p.add_argument("-o", "--out", help="write to this file instead of stdout")
-    p.add_argument("--aspect", type=float, default=0.5,
-                   help="terminal cell height compensation (default 0.5)")
-    p.add_argument("--invert", action="store_true",
-                   help="flip the ramp for light backgrounds")
     p.add_argument("--full", action="store_true",
                    help="convert the whole image instead of the face crop")
     a = p.parse_args()
 
-    art = convert(a.image, a.width, a.aspect, a.invert, a.full)
+    if os.path.isdir(a.image):
+        # batch mode: convert every image into the repo's art/ directory
+        art = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "art")
+        count = 0
+        for name in sorted(os.listdir(a.image)):
+            slug, ext = os.path.splitext(name)
+            if ext.lower() not in EXTS:
+                continue
+            out = os.path.join(art, slug + ".txt")
+            with open(out, "w") as f:
+                f.write(convert(os.path.join(a.image, name), a.width, a.full))
+            count += 1
+        print(f"converted {count} portrait(s) into {art}/", file=sys.stderr)
+        return
+
+    grid = convert(a.image, a.width, a.full)
     if a.out:
         with open(a.out, "w") as f:
-            f.write(art)
-        print(f"wrote {a.out}", file=sys.stderr)
+            f.write(grid)
     else:
-        sys.stdout.write(art)
+        sys.stdout.write(grid)
 
 
 if __name__ == "__main__":
